@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "PpFt4tcV2fo=",
+  "success": true,
+  "projectFilePath": "/Users/morten/Desktop/Agil Udvikling/users-web-api-main/UsersApi/UsersApi.csproj",
+  "expectedPackageFiles": [
+    "/Users/morten/.nuget/packages/microsoft.aspnetcore.openapi/9.0.10/microsoft.aspnetcore.openapi.9.0.10.nupkg.sha512",
+    "/Users/morten/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
