@@ -23,14 +23,12 @@ public class UsersController : ControllerBase
             return BadRequest("Email and password are required.");
         }
 
-        // Tjek om email allerede findes
         var existingUser = _userRepository.GetByEmail(dto.Email);
         if (existingUser != null)
         {
             return BadRequest("Email is already in use.");
         }
 
-        // Simpel password hashing (i virkeligheden bør man bruge BCrypt el.lign., men lad os holde det simpelt)
         var passwordHash = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(dto.Password));
 
         var newUser = new User
@@ -44,12 +42,40 @@ public class UsersController : ControllerBase
 
         return Ok(new { message = "User registered successfully", userId = newUser.Id });
     }
+
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] LoginDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Email) || string.IsNullOrWhiteSpace(dto.Password))
+        {
+            return BadRequest("Email and password are required.");
+        }
+
+        var user = _userRepository.GetByEmail(dto.Email);
+        if (user == null)
+        {
+            return Unauthorized("Invalid email or password.");
+        }
+
+        var passwordHash = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(dto.Password));
+        if (user.PasswordHash != passwordHash)
+        {
+            return Unauthorized("Invalid email or password.");
+        }
+
+        return Ok(new { message = "Login successful", userId = user.Id, username = user.Username });
+    }
 }
 
-// DTO til at modtage data fra klienten
 public class RegisterDto
 {
     public string Username { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+}
+
+public class LoginDto
+{
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 }

@@ -3,6 +3,7 @@ using UsersApi.Models;
 namespace UsersApi.Repositories;
 
 public class UserRepository : IUserRepository
+
 {
     private readonly List<User> _users = new();
 
